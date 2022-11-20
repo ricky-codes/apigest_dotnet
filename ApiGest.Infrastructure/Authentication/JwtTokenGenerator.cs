@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using ApiGest.Application.Common.Interfaces.Services;
+using ApiGest.Domain.Entities;
 
 public class JwtTokenGenerator : IJwtTokenGenerator{
     
@@ -17,7 +18,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator{
         _dateTimeProvider = dateTimeProvider;
     }
 
-    public string GenerateToken(Guid userId, string firstname, string lastname){
+    public string GenerateToken(User user){
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
@@ -25,9 +26,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator{
             SecurityAlgorithms.HmacSha256);
 
         var claims = new [] {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.GivenName, firstname),
-            new Claim(JwtRegisteredClaimNames.FamilyName, lastname),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.GivenName, user.Firstname),
+            new Claim(JwtRegisteredClaimNames.FamilyName, user.Lastname),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

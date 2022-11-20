@@ -1,9 +1,7 @@
 namespace ApiGest.Application.Services.Authentication;
 
+using ApiGest.Domain.Entities;
 public record AuthResult(
-    Guid Id,
-    string Firstname,
-    string Lastname,
-    string Email,
+    User user,
     string Token
 );
